@@ -6,15 +6,24 @@ module Types
 
     # Add root-level fields here.
     # They will be entry points for queries on your schema.
-    field :blog, BlogType, null: false,
-    def blog
-      context[:blog]
+    field :blog_by_id, BlogType, null: true do
+      description "Find a blog by ID"
+      argument :id, ID, required: true
     end
-    # TODO: remove me
-    # field :test_field, String, null: false,
-    #   description: "An example field added by the generator"
-    # def test_field
-    #   "Hello World!"
-    # end
+
+    # Then provide an implementation:
+    def blog_by_id(id:)
+      Blog.find(id)
+    end
+
+    field :blog, BlogType, null: true do
+      description "Find a blog by ID"
+      # argument :id, ID, required: true
+    end
+
+    # Then provide an implementation:
+    def blog
+      Blog.last
+    end
   end
 end
